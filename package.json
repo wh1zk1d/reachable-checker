@@ -1,0 +1,14 @@
+{
+  "name": "uptime-checker",
+  "version": "1.0.0",
+  "description": "Checks if a given URL is up & running. Written in Node.js",
+  "main": "index.js",
+  "author": "wh1zk1d",
+  "license": "MIT",
+  "scripts": {
+    "check": "node app.js"
+  },
+  "dependencies": {
+    "is-reachable": "^4.0.0"
+  }
+}
