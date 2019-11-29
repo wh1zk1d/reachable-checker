@@ -1,16 +1,27 @@
 const isReachable = require('is-reachable')
-const urlFile = require('./urls.json')
+const chalk = require('chalk')
+const isOnline = require('is-online')
 
+const urlFile = require('./urls.json')
 const urls = urlFile.urls
 
-console.log(`🤖 ### Testing ${urls.length} URLs ###`)
+;(async () => {
+  const online = await isOnline()
 
-urls.forEach(url => {
-  ;(async () => {
-    if (await isReachable(url)) {
-      console.log(`✅ ${url} is ONLINE`)
-    } else {
-      console.log(`🚨 ${url} seems to be OFFLINE`)
-    }
-  })()
-})
+  if (online) {
+    console.log(chalk.yellow(`### Testing ${urls.length} URLs ###`))
+
+    urls.forEach(url => {
+      ;(async () => {
+        if (await isReachable(url)) {
+          console.log(`${url}: ` + chalk.green('OK'))
+        } else {
+          console.log(`${url}: ` + chalk.red('not reachable'))
+        }
+      })()
+    })
+  } else {
+    console.log(chalk.red("You're offline – could not check sites"))
+    process.exit()
+  }
+})()
